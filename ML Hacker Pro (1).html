@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ML Hacker Pro</title>
+<style>
+:root{--bg:#0b0613;--card:#170d28;--pu:#a855f7;--cy:#22d3ee;--rd:#ff2e4d;--tx:#f3e8ff;--dim:#9b8bb8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body.alert{animation:flash .5s infinite,shake .12s infinite}
+@keyframes flash{50%{background:#4a0010}}
+@keyframes shake{25%{transform:translate(3px,-2px)}75%{transform:translate(-3px,2px)}}
+@keyframes glitch{0%,90%{transform:none}92%{transform:translateX(-6px) skewX(8deg)}96%{transform:translateX(6px)}}
+.wrap{max-width:460px;margin:0 auto;padding:18px}
+h1{font-size:24px;margin:6px 0 2px;text-align:center;text-shadow:0 0 14px var(--pu);letter-spacing:1px}
+.sub{text-align:center;color:var(--dim);font-size:13px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid #3a2560;border-radius:14px;padding:14px;margin-bottom:12px}
+label{font-size:12px;color:var(--dim);display:block;margin:8px 0 4px}
+input{width:100%;background:#0b0613;color:var(--tx);border:1px solid #3a2560;border-radius:8px;padding:12px;font-size:16px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #2a1a47;font-size:15px}
+.row:last-child{border:0}
+.sw{width:46px;height:26px;background:var(--pu);border-radius:20px;position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:23px;width:20px;height:20px;border-radius:50%;background:#fff}
+button.main{width:100%;padding:15px;font-size:17px;font-weight:700;border:0;border-radius:12px;color:#fff;background:linear-gradient(90deg,var(--pu),var(--rd));cursor:pointer;box-shadow:0 0 18px rgba(168,85,247,.5)}
+#run{display:none}
+#log{font-family:"Courier New",monospace;font-size:12.5px;line-height:1.5;color:var(--cy);min-height:130px;max-height:200px;overflow-y:auto}
+#log .r{color:var(--rd);font-weight:700}
+.bar{height:10px;background:#2a1a47;border-radius:6px;overflow:hidden;margin:10px 0 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--pu))}
+#dia{font-size:34px;font-weight:800;text-align:center;color:var(--cy);text-shadow:0 0 14px var(--cy)}
+.hk{display:none;text-align:center;color:var(--rd);font-size:24px;font-weight:900;text-shadow:0 0 14px var(--rd);margin:4px 0 12px;animation:glitch 1.6s infinite}
+.red{color:var(--rd);font-weight:700}.ok{color:#4ade80;font-weight:700}
+.msg{background:#2a0a14;border-left:3px solid var(--rd);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:14px}
+#warn{display:none;text-align:center;color:#fff;background:var(--rd);border-radius:12px;padding:12px;margin-bottom:12px;font-weight:800;animation:flash .4s infinite}
+#cd{font-size:42px;display:block}
+#x{position:fixed;right:8px;bottom:calc(6px + env(safe-area-inset-bottom,0px));font-size:12px;opacity:.35;background:#000;color:#fff;border:1px solid #444;border-radius:6px;padding:6px 10px;z-index:15;display:none}
+#scare{display:none;position:fixed;inset:0;z-index:20;background:#000;align-items:center;justify-content:center;flex-direction:column;overflow:hidden}
+#scare .face{font-size:min(90vw,70vh);line-height:1;animation:zoom .25s ease-out,shake .05s infinite;filter:drop-shadow(0 0 40px #f00)}
+#scare .txt{color:#f00;font-size:22px;font-weight:800;text-align:center;margin-top:8px;text-shadow:0 0 12px #f00}
+@keyframes zoom{from{transform:scale(.1)}to{transform:scale(1)}}
+#end{display:none;position:fixed;inset:0;background:#000;z-index:30;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;font-size:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>⚔️ ML HACKER PRO ⚔️</h1>
+  <div class="sub" id="by"></div>
+
+  <div id="setup">
+    <div class="card">
+      <label>তোমার Mobile Legends নিকনেম লেখো</label>
+      <input id="fn" placeholder="যেমন: Rahul_Pro" autocomplete="off">
+      <div class="sub" style="margin:8px 0 0;font-size:12px">শুধু নিকনেম লাগবে, পাসওয়ার্ড লাগবে না ✔</div>
+    </div>
+    <div class="card" id="opts"></div>
+    <button class="main" id="go">🚀 INJECT শুরু করো</button>
+  </div>
+
+  <div id="run">
+    <div id="warn">⚠ অ্যাকাউন্ট ধ্বংস হতে বাকি<span id="cd"></span></div>
+    <div class="hk" id="hk"></div>
+    <div class="card"><div id="log"></div><div class="bar"><i id="pb"></i></div></div>
+    <div class="card"><div class="sub" style="margin:0">💎 ডায়মন্ড ব্যালেন্স</div><div id="dia">0</div></div>
+    <div class="card" id="stat"></div>
+    <div id="chat"></div>
+  </div>
+</div>
+<button id="x">✕</button>
+<div id="scare"><div class="face">💀</div><div class="txt" id="st"></div></div>
+<div id="end"><div>😂 প্র্যাংক!</div><div style="font-size:16px" id="em"></div></div>
+
+<script>
+const $=i=>document.getElementById(i),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>s.replace(/[<>&]/g,'');
+function hname(){let h='';try{h=decodeURIComponent(location.hash.slice(1))}catch(e){}return esc(h.replace(/[_-]/g,' ').trim())||'ML Hacker'}
+function showBy(){$('by').innerHTML='Created by <b>'+hname()+'</b>'}
+showBy();window.addEventListener('hashchange',showBy);
+const feats=['💎 Unlimited Diamonds','🗺️ Map Hack (শত্রু দেখা)','🎯 Auto Aim','⚡ No Cooldown','🏆 Auto Win Rank'];
+$('opts').innerHTML=feats.map(f=>'<div class="row"><span>'+f+'</span><div class="sw"></div></div>').join('');
+function log(t,c){const l=$('log'),d=document.createElement('div');d.textContent=t;if(c)d.className=c;l.appendChild(d);l.scrollTop=l.scrollHeight}
+function say(t){const d=document.createElement('div');d.className='msg';d.textContent=t;$('chat').appendChild(d);vib(150);window.scrollTo(0,document.body.scrollHeight)}
+let stopped=false,ctx=null,siren=null;
+function startSiren(){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';g.gain.value=.12;o.connect(g);g.connect(ctx.destination);o.start();let hi=false;o.frequency.value=600;const t=setInterval(()=>{hi=!hi;o.frequency.value=hi?900:600},350);siren={o,t}}catch(e){}}
+function stopSiren(){try{if(siren){clearInterval(siren.t);siren.o.stop();siren=null}}catch(e){}}
+function noise(){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();const n=ctx.sampleRate*.9,b=ctx.createBuffer(1,n,ctx.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=.5;s.buffer=b;s.connect(g);g.connect(ctx.destination);s.start()}catch(e){}}
+function vib(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+function table(rows,n){$('stat').innerHTML=rows.map((r,j)=>'<div class="row"><span>'+r[0]+'</span><span class="'+(j<n?'red':'ok')+'">'+(j<n?r[2]:r[1])+'</span></div>').join('')}
+async function go(){
+  try{ctx=new (window.AudioContext||window.webkitAudioContext)();ctx.resume()}catch(e){}
+  const hn=hname(),fn=esc($('fn').value.trim())||'Player';
+  $('setup').style.display='none';$('run').style.display='block';$('x').style.display='block';
+  const steps=['Connecting to ML server...','Target: '+fn,'Detecting anti-cheat... FOUND','Bypassing security layer 1/3','Bypassing security layer 2/3','Bypassing security layer 3/3 ✔','Injecting payload by '+hn+'...','Injection complete ✔'];
+  for(let i=0;i<steps.length;i++){if(stopped)return;log('> '+steps[i]);$('pb').style.width=((i+1)/steps.length*100)+'%';await sleep(750)}
+  const t=setInterval(()=>{if(stopped){clearInterval(t);return}const c=parseInt($('dia').dataset.v||'0')+Math.floor(Math.random()*40000)+9000;const v=Math.min(c,999999);$('dia').dataset.v=v;$('dia').textContent=v.toLocaleString();if(v>=999999)clearInterval(t)},80);
+  table(feats.map(f=>[f,'ACTIVE','']),0);
+  log('> '+fn+', এখন তুমি অজেয়! 😈');
+  await sleep(3500);if(stopped)return;
+  // টার্নিং পয়েন্ট
+  document.body.classList.add('alert');startSiren();vib([300,100,300,100,600]);
+  log('!!! ERROR: HACK TOOL CORRUPTED !!!','r');await sleep(900);
+  log('> unknown device logged in','r');await sleep(700);
+  log('> Session hijacked ✔','r');await sleep(700);
+  log('> Password: CHANGED','r');await sleep(700);
+  log('> Email: CHANGED','r');await sleep(700);
+  $('hk').style.display='block';$('hk').textContent='☠ HACKED BY '+hn.toUpperCase()+' ☠';
+  say(hn+': '+fn+', তোর অ্যাকাউন্ট এখন আমার হাতে 😈');await sleep(1500);
+  const w=[['💎 ডায়মন্ড','৯,৯৯,৯৯৯','০'],['🦸 হিরো','১২০','০'],['🎨 স্কিন','৩৪০','০'],['🏆 র‍্যাংক','Mythic','Warrior III'],['👥 ফ্রেন্ড','২৮৭','মুছে ফেলা']];
+  for(let i=1;i<=w.length;i++){if(stopped)return;table(w,i);log('[X] '+w[i-1][0]+' DELETED','r');vib(150);await sleep(900)}
+  say(hn+': সব মুছে দিলাম। ফেরত চাইলে ৫০ প্লেট ফুচকা 🔥');
+  $('warn').style.display='block';
+  for(let i=8;i>0;i--){if(stopped)return;$('cd').textContent=i;vib(80);await sleep(1000)}
+  if(stopped)return;
+  stopSiren();document.body.classList.remove('alert');
+  $('st').textContent=hn+' তোমাকে দেখছে, '+fn+'...';
+  $('scare').style.display='flex';noise();vib([700]);
+  setTimeout(fin,2600);
+}
+function fin(){stopped=true;stopSiren();document.body.classList.remove('alert');$('scare').style.display='none';$('x').style.display='none';
+  const fn=esc($('fn').value.trim())||'বন্ধু';
+  $('em').textContent=fn+', শান্ত হও 😄 তোমার ML অ্যাকাউন্ট আর ফোন একদম ঠিক আছে, কিছুই মুছেনি বা হ্যাক হয়নি। এটা '+hname()+'-এর বানানো প্র্যাংক। ট্রিট চাই!';
+  $('end').style.display='flex'}
+$('go').onclick=go;$('x').onclick=fin;
+</script>
+</body>
+</html>
